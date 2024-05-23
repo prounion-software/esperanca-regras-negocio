@@ -157,9 +157,9 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Critério 7 - Abastecimento corretivo mas com pendências de conferência
+## Critério 7 - Abastecimento corretivo mas com pendências de conferência ou separação
 
-O objetivo é liberar o trabalho que está parado por conta de pendências encontradas durante a conferência.
+O objetivo é liberar o trabalho que está parado por conta de pendências encontradas durante a conferência ou separação.
 
 As ordens de serviço pesquisadas nesse critério são:
 
