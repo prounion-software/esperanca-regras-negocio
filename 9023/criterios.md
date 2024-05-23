@@ -82,13 +82,13 @@ As ordens de serviço pesquisadas nesse critério são:
 - Apenas do tipo 98;
 - Apenas onde o campo `PCMOVENDPEND.CODROTINA` seja 1709 ou 1721;
 - Apenas aquelas em que a ordem de serviço do tipo 97 do mesmo código U.M.A. e núm. trans. wms esteja finalizada;
-- Da mesma rua da última solicitação finalizada pelo operador;
+- Da mesma rua da última solicitação finalizada pelo operador.
 
 A ordenação do resultado é:
 
-- Data da ordem de serviço, mais antigas primeiro (ASC)
-- Estoque disponível do produto no estoque gerencial, os menores primeiro (ASC)
-- O giro/dia do produto, os maiores primeiro (DESC)
+- Data da ordem de serviço, mais antigas primeiro (ASC);
+- Estoque disponível do produto no estoque gerencial, os menores primeiro (ASC);
+- O giro/dia do produto, os maiores primeiro (DESC).
 
 Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `SL`, e além do tipo de serviço a senha também é marcada como **SUPER LOTADA** que fará que a próxima solicitação desse mesmo funcionário também entre nesse critério.
 
@@ -113,13 +113,13 @@ As ordens de serviço pesquisadas nesse critério são:
 - Apenas aquelas em que a ordem de serviço do tipo 97 do mesmo código U.M.A. e núm. trans. wms esteja finalizada;
 - Dentro do intervalo de ruas estabelecido;
 - Apenas de ruas consideradas super lotadas;
-- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
+- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido.
 
 A ordenação do resultado é:
 
-- Ordens de serviço da mesma rua que da senha anterior finalizada pelo solicitante
-- Total de ordens de serviço pendentes na rua
-- Número da rua
+- Ordens de serviço da mesma rua que da senha anterior finalizada pelo solicitante;
+- Total de ordens de serviço pendentes na rua;
+- Número da rua.
 
 Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `SL`, e além do tipo de serviço a senha também é marcada como **SUPER LOTADA** que fará que a próxima solicitação desse mesmo funcionário seja analisada pelo critério 5.
 
@@ -141,12 +141,44 @@ As ordens de serviço pesquisadas nesse critério são:
 - Apenas onde o campo `PCMOVENDPEND.CODROTINA` **não** seja 1709 ou 1721;
 - Apenas aquelas em que a ordem de serviço do tipo 23 do mesmo código U.M.A. e núm. trans. wms esteja com separação finalizada;
 - Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
-- Em que o percentual de finalização de outras ordens de serviço do mesmo carregamento, mas de outros tipos seja igual ou superior ao da [configuração 263](./9023.md#configurações-da-rotina-9827)
+- Em que o percentual de finalização de outras ordens de serviço do mesmo carregamento, mas de outros tipos seja igual ou superior ao da [configuração 263](./9023.md#configurações-da-rotina-9827).
 
 A ordenação do resultado é:
 
-- Data da onda do carregando da ordem de serviço
-- Número da onda do carregando da ordem de serviço
-- Menor rua dentre o intervalo de ruas definido
-- Mais próxima da rua da senha anterior do operador
-- Número da ordem de serviço
+- Data da onda do carregando da ordem de serviço;
+- Número da onda do carregando da ordem de serviço;
+- Menor rua dentre o intervalo de ruas definido;
+- Mais próxima da rua da senha anterior do operador;
+- Número da ordem de serviço.
+
+Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `PB`.
+
+Se não forem encontrados resultados, seguimos para o próximo critério.
+
+---
+
+## Critério 7 - Abastecimento corretivo mas com pendências de conferência
+
+O objetivo é liberar o trabalho que está parado por conta de pendências encontradas durante a conferência.
+
+As ordens de serviço pesquisadas nesse critério são:
+
+- No caso de operador de empilhadeira, ordens de serviço do tipo 58;
+- No caso de operador de paleteira, ordens de serviço do tipo 61;
+- Dentro do intervalo de ruas estabelecido;
+- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
+- Que possuam pendências de conferência em aberto (`BOPENDENCIACONF`) **ou** que possuem etiquetas de separação marcadas como pendentes e não resolvidas (`BOETIQUETAS.PENDENTE`).
+
+A ordenação do resultado é:
+
+- Data da onda do carregando da ordem de serviço;
+- Número da onda do carregando da ordem de serviço;
+- Número da ordem do carregando da ordem de serviço;
+
+Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `SL`, e além do tipo de serviço a senha também é marcada como **SUPER LOTADA** que fará que a próxima solicitação desse mesmo funcionário seja analisada pelo critério 5.
+
+Mas o processo também pesquisa pela existência de outras ordens de serviço pendentes com a mesma origem e destino, caso sejam encontradas, o tipo de serviço será definida como `OC`, e essas outras ordens de serviço serão associadas nesta mesma senha (`BOFILAOSR`).
+
+Se não forem encontrados resultados, seguimos para o próximo critério.
+
+---
