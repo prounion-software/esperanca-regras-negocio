@@ -117,9 +117,9 @@ As ordens de serviço pesquisadas nesse critério são:
 
 A ordenação do resultado é:
 
-- Ordens de serviço da mesma rua que da senha anterior finalizada pelo solicitante (ASC)
-- Total de ordens de serviço pendentes na rua (ASC)
-- Número da rua (ASC)
+- Ordens de serviço da mesma rua que da senha anterior finalizada pelo solicitante
+- Total de ordens de serviço pendentes na rua
+- Número da rua
 
 Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `SL`, e além do tipo de serviço a senha também é marcada como **SUPER LOTADA** que fará que a próxima solicitação desse mesmo funcionário seja analisada pelo critério 5.
 
@@ -128,3 +128,25 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 ---
 
 ## Critério 6.5 - Separação Pallet Box
+
+**Este critério é destinado apenas para operadores de paleteira**
+
+Se a [configuração 264](./9023.md#configurações-da-rotina-9827) estiver diferente de `S`, esse critério é pulado.
+
+O objetivo desse critério é realizar a separação chamada de pallet box, onde um pallet fechado é direcionado de um endereço do tipo pulmão diretamente para a doca (box).
+
+As ordens de serviço pesquisadas nesse critério são:
+
+- Apenas do tipo 17;
+- Apenas onde o campo `PCMOVENDPEND.CODROTINA` **não** seja 1709 ou 1721;
+- Apenas aquelas em que a ordem de serviço do tipo 23 do mesmo código U.M.A. e núm. trans. wms esteja com separação finalizada;
+- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
+- Em que o percentual de finalização de outras ordens de serviço do mesmo carregamento, mas de outros tipos seja igual ou superior ao da [configuração 263](./9023.md#configurações-da-rotina-9827)
+
+A ordenação do resultado é:
+
+- Data da onda do carregando da ordem de serviço
+- Número da onda do carregando da ordem de serviço
+- Menor rua dentre o intervalo de ruas definido
+- Mais próxima da rua da senha anterior do operador
+- Número da ordem de serviço
