@@ -69,7 +69,7 @@ As ruas que serão ignoradas nas pesquisas são:
 >
 > Cada critério irá adicionar suas próprias restrições além dessas descritas acima.
 
-## Critério 5 - Ruas super lotadas antes
+## Critério 5 - Ruas super lotadas onde o operador está
 
 **Este critério é destinado apenas para operadores de empilhadeira**
 
@@ -95,3 +95,36 @@ Se forem encontrados resultados, a primeira ordem de serviço é atribuída a se
 Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
+
+## Critério 6 - Esvaziar ruas super lotadas
+
+**Este critério é destinado apenas para operadores de empilhadeira**
+
+Se não houverem ruas super lotadas esse critério é pulado.
+
+O objetivo é priorizar as ruas com maior quantidade de ordens de serviço pendentes.
+
+É bastante semelhante ao critério anterior, a principal diferença é dar prioridade para as ruas com maior quantidade de ordens de serviço pendentes, mesmo que isso signifique mudar o operador de rua ao contrário do critério 5 que buscava manter o operador na mesma rua.
+
+As ordens de serviço pesquisadas nesse critério são:
+
+- Apenas do tipo 98;
+- Apenas onde o campo `PCMOVENDPEND.CODROTINA` seja 1709 ou 1721;
+- Apenas aquelas em que a ordem de serviço do tipo 97 do mesmo código U.M.A. e núm. trans. wms esteja finalizada;
+- Dentro do intervalo de ruas estabelecido;
+- Apenas de ruas consideradas super lotadas;
+- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
+
+A ordenação do resultado é:
+
+- Ordens de serviço da mesma rua que da senha anterior finalizada pelo solicitante (ASC)
+- Total de ordens de serviço pendentes na rua (ASC)
+- Número da rua (ASC)
+
+Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `SL`, e além do tipo de serviço a senha também é marcada como **SUPER LOTADA** que fará que a próxima solicitação desse mesmo funcionário seja analisada pelo critério 5.
+
+Se não forem encontrados resultados, seguimos para o próximo critério.
+
+---
+
+## Critério 6.5 - Separação Pallet Box
