@@ -1,6 +1,8 @@
 # Regras de negócio das rotinas customizadas do Comercial Esperança
 
-![Imagem](./regras_negocio.jpg)
+<p align="center">
+    <img src="./regras_negocio.jpg" align="center">
+</p>
 
 A proposta desses documentos é armazenar as regras das rotinas customizadas, sem detalhar demais as implementações das rotinas em si. Isso é importante para que as regras dos processos não fiquem unicamente representadas em código.
 
