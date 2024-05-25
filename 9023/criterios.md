@@ -127,7 +127,7 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Critério 6.5 - Separação Pallet Box
+## <a name="criterio6_5"></a>Critério 6.5 - Separação Pallet Box
 
 **Este critério é destinado apenas para operadores de paleteira**
 
@@ -209,6 +209,16 @@ Se forem encontrados resultados, a primeira ordem de serviço é atribuída a se
 Mas o processo também pesquisa pela existência de outras ordens de serviço pendentes com a mesma origem e destino, caso sejam encontradas, o tipo de serviço será definida como `OC`, e essas outras ordens de serviço serão associadas nesta mesma senha (`BOFILAOSR`).
 
 Se não forem encontrados resultados, seguimos para o próximo critério.
+
+---
+
+## Criério 8.1 (DESABILITADO) - Pallet box
+
+**Este critério deixou de ser o 8.1 e passou a ser o [6.5](#criterio6_5)**
+
+---
+
+## Criério 8.2 (DESABILITADO) - Abastecimento preventivo sem onda
 
 ---
 
