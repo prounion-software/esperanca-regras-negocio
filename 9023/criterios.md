@@ -342,7 +342,7 @@ A sequência real fica da seguinte forma:
 |   7   |                                                 6.5                                                  |     Não      |
 |   8   |                                                  7                                                   |     Não      |
 |   9   |                                                  8                                                   |     Não      |
-|  10   |            A pesquisa passa a ser para o armazém todo, esse ponto é chamado de critério 9            |              |
+|  10   |            A pesquisa passa a ser para o armazém todo, esse ponto é chamado de critério 9            |      -       |
 |  11   |                                                  5                                                   |     Sim      |
 |  12   |                                                  6                                                   |     Sim      |
 |  13   |                                                 6.5                                                  |     Sim      |
