@@ -218,7 +218,32 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Criério 8.2 (DESABILITADO) - Abastecimento preventivo sem onda
+## Criério 8.2 (DESABILITADO) - Abastecimento preventivo com demanda
+
+O objetivo é a realização de abastecimentos preventivos dando prioridade às ruas que possuem separação pendentes.
+
+As ordens de serviço pesquisadas nesse critério são:
+
+- No caso de operador de empilhadeira, ordens de serviço do tipo 58;
+- No caso de operador de paleteira, ordens de serviço do tipo 61;
+- No caso de solicitação pelo operador de paleteira, é verificado se as ordens de serviço do tipo 58, da mesmo núm. trans. wms e código U.M.A estão em uma posição diferente de `P`.
+- Apenas onde o campo `PCMOVENDPEND.CODROTINA` seja 1723;
+- Em endereços que possuem ordens de serviços dos tipos 10 e 22 com posição igual a `P`;
+- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
+- Não tenha o valor do campo `PCMOVENDPEND.NUMTRANSWMS` como registro na tabela `PCWMS` (`PCWMS.NUMTRANSWMS`).
+
+A ordenação do resultado é:
+
+- Data da onda do carregando da ordem de serviço;
+- Número da onda do carregando da ordem de serviço;
+- Menor rua dentre o intervalo de ruas definido;
+- Mais próxima da rua da senha anterior do operador;
+
+Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `AP`.
+
+Mas o processo também pesquisa pela existência de outras ordens de serviço pendentes com a mesma origem e destino, caso sejam encontradas, o tipo de serviço será definida como `OC`, e essas outras ordens de serviço serão associadas nesta mesma senha (`BOFILAOSR`).
+
+Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
@@ -233,7 +258,7 @@ As ordens de serviço pesquisadas nesse critério são:
 - Apenas onde o campo `PCMOVENDPEND.CODROTINA` seja 1752;
 - Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
 - No caso de solicitação pelo operador de paleteira, é verificado se as ordens de serviço do tipo 58, da mesmo núm. trans. wms e código U.M.A estão em uma posição diferente de `P`.
-- Não tenha o valor do campo `PCMOVENDPEND.NUMTRANSWMS` como registro na tabela `PCWMS` (`PCWMS.NUMTRANSWMS`)
+- Não tenha o valor do campo `PCMOVENDPEND.NUMTRANSWMS` como registro na tabela `PCWMS` (`PCWMS.NUMTRANSWMS`).
 
 **Este critério tem uma diferença em relação aos demais**, pois ao contrário dos demais ele não ignora as ruas de exceção e as ruas com excesso de operadores.
 
