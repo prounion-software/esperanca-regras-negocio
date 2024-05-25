@@ -6,19 +6,19 @@
 
 ---
 
-## Critério 1: Cancelar senhas atribuídas e não iniciadas
+## <a name="criterio1"></a>Critério 1: Cancelar senhas atribuídas e não iniciadas
 
-De acordo com a [configuração 262](./9023.md#configurações-da-rotina-9827), há um tempo limite onde o solicitante pode iniciar a ordem de serviço depois de atribuída a ele. Caso esse tempo seja ultrapassado, esse critério faz o cancelamento da senha para que a ordem de serviço seja liberada para os critérios seguintes.
+De acordo com a [configuração 262](./9023.md#config262), há um tempo limite onde o solicitante pode iniciar a ordem de serviço depois de atribuída a ele. Caso esse tempo seja ultrapassado, esse critério faz o cancelamento da senha para que a ordem de serviço seja liberada para os critérios seguintes.
 
 ---
 
-## Critério 2: Listando solicitações pendentes
+## <a name="criterio2"></a>Critério 2: Listando solicitações pendentes
 
 São consideradas solicitações pendentes todas aquelas com status igual a `'A'`, e para análise elas são listadas por ordem de senha, como a senha é definida por uma [sequence](./banco_dados.md#bofilaos) isso nos garante que iremos seguir a ordem de solicitação.
 
 ---
 
-## Critério 3: Retornando a ordem de serviço atual
+## <a name="criterio3"></a>Critério 3: Retornando a ordem de serviço atual
 
 Caso haja uma senha anterior não finalizada para o solicitante, a senha anterior é cancelada, e a mesma ordem de serviço é atribuída nessa nova senha.
 
@@ -26,7 +26,7 @@ O [tipo de serviço](./tipos_servico.md) nesse caso fica como `RT`.
 
 ---
 
-## Critério 4: Carregar totais e configurações
+## <a name="criterio4"></a>Critério 4: Carregar totais e configurações
 
 Neste passo, é onde são carregadas as [configurações](./9023.md#configurações-da-rotina-9827) que impactam diretamente as atribuições de ordens de serviço e também as lista de ruas que estão super lotadas e o total de funcionários nas ruas.
 
@@ -44,14 +44,14 @@ No caso do tipo 61, consideramos o endereço de origem.
 
 São analisadas apenas ordens do tipo 98 na posição `P`, e totalizadas pelo número da rua do endereço da ordem de serviço.
 
-As ruas que excederem a [configuração 249](./9023.md#configurações-da-rotina-9827) serão consideradas como **SUPER LOTADAS**.
+As ruas que excederem a [configuração 249](./9023.md#config249) serão consideradas como **SUPER LOTADAS**.
 
 ### Ruas ignoradas
 
 As ruas que serão ignoradas nas pesquisas são:
 
-- Ruas onde o total de funcionários excede as [configurações 251 e 252](./9023.md#configurações-da-rotina-9827)
-- Ruas definidas na [configuração 248](./9023.md#configurações-da-rotina-9827)
+- Ruas onde o total de funcionários excede as [configurações 251 e 252](./9023.md#config251)
+- Ruas definidas na [configuração 248](./9023.md#config248)
 
 ---
 
@@ -69,7 +69,7 @@ As ruas que serão ignoradas nas pesquisas são:
 >
 > Cada critério irá adicionar suas próprias restrições além dessas descritas acima.
 
-## Critério 5 - Ruas super lotadas onde o operador está
+## <a name="criterio5"></a>Critério 5 - Ruas super lotadas onde o operador está
 
 **Este critério é destinado apenas para operadores de empilhadeira**
 
@@ -96,7 +96,7 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Critério 6 - Esvaziar ruas super lotadas
+## <a name="criterio6"></a>Critério 6 - Esvaziar ruas super lotadas
 
 **Este critério é destinado apenas para operadores de empilhadeira**
 
@@ -131,7 +131,7 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 **Este critério é destinado apenas para operadores de paleteira**
 
-Se a [configuração 264](./9023.md#configurações-da-rotina-9827) estiver diferente de `S`, esse critério é pulado.
+Se a [configuração 264](./9023.md#config264) estiver diferente de `S`, esse critério é pulado.
 
 O objetivo desse critério é realizar a separação chamada de pallet box, onde um pallet fechado é direcionado de um endereço do tipo pulmão diretamente para a doca (box).
 
@@ -141,7 +141,7 @@ As ordens de serviço pesquisadas nesse critério são:
 - Apenas onde o campo `PCMOVENDPEND.CODROTINA` **não** seja 1709 ou 1721;
 - Apenas aquelas em que a ordem de serviço do tipo 23 do mesmo código U.M.A. e núm. trans. wms esteja com separação finalizada;
 - Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
-- Em que o percentual de finalização de outras ordens de serviço do mesmo carregamento, mas de outros tipos seja igual ou superior ao da [configuração 263](./9023.md#configurações-da-rotina-9827).
+- Em que o percentual de finalização de outras ordens de serviço do mesmo carregamento, mas de outros tipos seja igual ou superior ao da [configuração 263](./9023.md#config263).
 
 A ordenação do resultado é:
 
@@ -157,7 +157,7 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Critério 7 - Abastecimento corretivo mas com pendências de conferência ou separação
+## <a name="criterio7"></a>Critério 7 - Abastecimento corretivo mas com pendências de conferência ou separação
 
 O objetivo é liberar o trabalho que está parado por conta de pendências encontradas durante a conferência ou separação.
 
@@ -183,7 +183,7 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Criério 8 - Ordens de serviço sem super lotação, priorizando onda e rua que da última senha
+## <a name="criterio8"></a>Criério 8 - Ordens de serviço sem super lotação, priorizando onda e rua que da última senha
 
 O objetivo é a realização de abastecimentos corretivos comuns, e se possível mantendo o operador na mesma rua que estava antes.
 
@@ -212,13 +212,13 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Criério 8.1 (DESABILITADO) - Pallet box
+## <a name="criterio8_1"></a>Criério 8.1 (DESABILITADO) - Pallet box
 
 **Este critério deixou de ser o 8.1 e passou a ser o [6.5](#criterio6_5)**
 
 ---
 
-## Criério 8.2 (DESABILITADO) - Abastecimento preventivo com demanda
+## <a name="criterio8_2"></a>Criério 8.2 (DESABILITADO) - Abastecimento preventivo com demanda
 
 O objetivo é a realização de abastecimentos preventivos dando prioridade às ruas que possuem separação pendentes.
 
@@ -247,7 +247,7 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Critério 9.5 - Ordens de serviço preventivas baseadas em pedidos
+## <a name="criterio9_5"></a>Critério 9.5 - Ordens de serviço preventivas baseadas em pedidos
 
 O objetivo é a realização de abastecimentos preventivos comuns, e se possível mantendo o operador na mesma rua que estava antes.
 
@@ -275,7 +275,7 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Critério 10 - Armazenamento comum
+## <a name="criterio10"></a>Critério 10 - Armazenamento comum
 
 **Este critério é destinado apenas para operadores de empilhadeira**
 
@@ -300,7 +300,7 @@ Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
 
-## Critério 11 - Abastecimento preventivo comum
+## <a name="criterio11"></a>Critério 11 - Abastecimento preventivo comum
 
 O objetivo é a realização de abastecimentos preventivos comuns, mas observando o giro/dia dos produtos.
 
