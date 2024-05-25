@@ -2,7 +2,7 @@
 
 > **ATENÇÃO**
 >
-> Nessa primeira parte, estamos apresentando os critérios em ordem numérica. Porém na segunda parte iremos mostrar a ordem de execução, onde será possível verificar que alguns critérios são executados mais de uma vez mudando apenas o range de ruas a serem consideradas.
+> Nessa primeira parte, estamos apresentando os critérios em ordem numérica. Porém na segunda parte iremos mostrar a [ordem de execução](#ordem_execucao), onde será possível verificar que alguns critérios são executados mais de uma vez mudando apenas o range de ruas a serem consideradas.
 
 ---
 
@@ -322,3 +322,61 @@ Se forem encontrados resultados, a primeira ordem de serviço é atribuída a se
 Mas o processo também pesquisa pela existência de outras ordens de serviço pendentes com a mesma origem e destino, caso sejam encontradas, o tipo de serviço será definida como `OC`, e essas outras ordens de serviço serão associadas nesta mesma senha (`BOFILAOSR`).
 
 ---
+
+## <a name="ordem_execucao"></a>Ordem de execução dos critérios
+
+A ordem de execução dos critérios e tão importante quando as validações realizadas, porém apesar de serem ordenados pelos números, alguns deles são executados mais de uma vez, e a única diferença entre essas execuções de um mesmo critério é o intervalo de ruas, que na primeira execução o intervalo utilizado é o que foi definido pelo usuário ao realizar a solicitação e na segunda execução o intervalo é ampliado para o **armazém todo**.
+
+Mas é importante observar que, mesmo denominado como **armazém todo** as pesquisas irão excluir as [ruas com excesso de operadores](./9023.md#config251) e as [ruas de exceção](./9023.md#config248) _(a não ser que as ruas de exceção estejam explicitamente dentro do intervalo definido pelo solicitante)._
+
+A sequência real fica da seguinte forma:
+
+| Ordem |                                               Critério                                               | Armazém todo  |
+| :---: | :--------------------------------------------------------------------------------------------------: | :-----------: |
+|   1   |                                                  1                                                   | Não se aplica |
+|   2   |                                                  2                                                   | Não se aplica |
+|   3   |                                                  3                                                   | Não se aplica |
+|   4   |                                                  4                                                   | Não se aplica |
+|   5   |                                                  5                                                   |      Não      |
+|   6   |                                                  6                                                   |      Não      |
+|   7   |                                                 6.5                                                  |      Não      |
+|   8   |                                                  7                                                   |      Não      |
+|   9   |                                                  8                                                   |      Não      |
+|  10   |            A pesquisa passa a ser para o armazém todo, esse ponto é chamado de critério 9            |               |
+|  11   |                                                  5                                                   |      Sim      |
+|  12   |                                                  6                                                   |      Sim      |
+|  13   |                                                 6.5                                                  |      Sim      |
+|  14   |                                                  7                                                   |      Sim      |
+|  15   |                                                  8                                                   |      Sim      |
+|  16   | A pesquisa volta a ser pelo intervalo definido pelo operador, não tem número de critério determinado |               |
+|  17   |                                                 9.5                                                  |      Não      |
+|  18   |                                                  10                                                  |      Não      |
+|  19   |                                                  11                                                  |      Não      |
+|  20   |           A pesquisa passa a ser para o armazém todo, esse ponto é chamado de critério 12            |               |
+|  21   |                                                 9.5                                                  |      Sim      |
+|  22   |                                                  10                                                  |      Sim      |
+|  23   |                                                  11                                                  |      Sim      |
+
+1. Critério 1;
+2. Critério 2;
+3. Critério 3;
+4. Critério 4;
+5. Critério 5;
+6. Critério 6;
+7. Critério 6.5;
+8. Critério 7;
+9. Critério 8;
+10. A partir desse ponto, a pesquisa passa a ser para o armazém todo, esse ponto é chamado de critério 9;
+11. Critério 5;
+12. Critério 6;
+13. Critério 6.5;
+14. Critério 7;
+15. Critério 8;
+16. A partir desse ponto, a pesquisa volta a ser pelo intervalo definido pelo operador, não tem número de critério determinado;
+17. Critério 9.5;
+18. Critério 10;
+19. Critério 11;
+20. A partir desse ponto, a pesquisa passa a ser para o armazém todo, esse ponto é chamado de critério 12;
+21. Critério 9.5;
+22. Critério 10;
+23. Critério 11.
