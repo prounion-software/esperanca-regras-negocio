@@ -182,3 +182,108 @@ Mas o processo também pesquisa pela existência de outras ordens de serviço pe
 Se não forem encontrados resultados, seguimos para o próximo critério.
 
 ---
+
+## Criério 8 - Ordens de serviço sem super lotação, priorizando onda e rua que da última senha
+
+O objetivo é a realização de abastecimentos corretivos comuns, e se possível mantendo o operador na mesma rua que estava antes.
+
+As ordens de serviço pesquisadas nesse critério são:
+
+- No caso de operador de empilhadeira, ordens de serviço do tipo 58;
+- No caso de operador de paleteira, ordens de serviço do tipo 61;
+- Apenas onde o campo `PCMOVENDPEND.CODROTINA` **não** seja 1709 ou 1721;
+- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
+- No caso de solicitação pelo operador de paleteira, é verificado se as ordens de serviço do tipo 58, da mesmo núm. trans. wms e código U.M.A estão em uma posição diferente de `P`.
+
+A ordenação do resultado é:
+
+- Data da onda do carregando da ordem de serviço;
+- Número da onda do carregando da ordem de serviço;
+- Menor rua dentre o intervalo de ruas definido;
+- Mais próxima da rua da senha anterior do operador;
+- Númeração da rua da ordem de serviço;
+- Número da ordem de serviço.
+
+Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `MR` se o operador permanecer na mesma rua ou `TR` caso a ordem de serviço seja de outra rua em relação a última senha finalizada.
+
+Mas o processo também pesquisa pela existência de outras ordens de serviço pendentes com a mesma origem e destino, caso sejam encontradas, o tipo de serviço será definida como `OC`, e essas outras ordens de serviço serão associadas nesta mesma senha (`BOFILAOSR`).
+
+Se não forem encontrados resultados, seguimos para o próximo critério.
+
+---
+
+## Critério 9.5 - Ordens de serviço preventivas baseadas em pedidos
+
+O objetivo é a realização de abastecimentos preventivos comuns, e se possível mantendo o operador na mesma rua que estava antes.
+
+As ordens de serviço pesquisadas nesse critério são:
+
+- No caso de operador de empilhadeira, ordens de serviço do tipo 58;
+- No caso de operador de paleteira, ordens de serviço do tipo 61;
+- Apenas onde o campo `PCMOVENDPEND.CODROTINA` seja 1752;
+- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
+- No caso de solicitação pelo operador de paleteira, é verificado se as ordens de serviço do tipo 58, da mesmo núm. trans. wms e código U.M.A estão em uma posição diferente de `P`.
+- Não tenha o valor do campo `PCMOVENDPEND.NUMTRANSWMS` como registro na tabela `PCWMS` (`PCWMS.NUMTRANSWMS`)
+
+**Este critério tem uma diferença em relação aos demais**, pois ao contrário dos demais ele não ignora as ruas de exceção e as ruas com excesso de operadores.
+
+A ordenação do resultado é:
+
+- Mais próxima da rua da senha anterior do operador;
+- Menor rua dentre o intervalo de ruas definido.
+
+Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `PP`.
+
+Mas o processo também pesquisa pela existência de outras ordens de serviço pendentes com a mesma origem e destino, caso sejam encontradas, o tipo de serviço será definida como `OC`, e essas outras ordens de serviço serão associadas nesta mesma senha (`BOFILAOSR`).
+
+Se não forem encontrados resultados, seguimos para o próximo critério.
+
+---
+
+## Critério 10 - Armazenamento comum
+
+**Este critério é destinado apenas para operadores de empilhadeira**
+
+O objetivo é a realização de ordens de serviço de armazenamento comuns.
+
+As ordens de serviço pesquisadas nesse critério são:
+
+- Apenas do tipo 98;
+- Apenas onde o campo `PCMOVENDPEND.CODROTINA` **não** seja 1709 ou 1721;
+- Apenas aquelas em que a ordem de serviço do tipo 97 do mesmo código U.M.A. e núm. trans. wms esteja finalizada;
+- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
+
+A ordenação do resultado é:
+
+- Data da ordem de serviço (ASC);
+- Menor estoque gerencial disponível (ASC)
+- O giro/dia do produto, os maiores primeiro (DESC).
+
+Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `AC`.
+
+Se não forem encontrados resultados, seguimos para o próximo critério.
+
+---
+
+## Critério 11 - Abastecimento preventivo comum
+
+O objetivo é a realização de abastecimentos preventivos comuns, mas observando o giro/dia dos produtos.
+
+As ordens de serviço pesquisadas nesse critério são:
+
+- No caso de operador de empilhadeira, ordens de serviço do tipo 58;
+- No caso de operador de paleteira, ordens de serviço do tipo 61;
+- Apenas onde o campo `PCMOVENDPEND.CODROTINA` **não** seja 1709 ou 1721;
+- Que não possuam registro de pendência (`BOOSCOMPENDENCIA`) não resolvido;
+- No caso de solicitação pelo operador de paleteira, é verificado se as ordens de serviço do tipo 58, da mesmo núm. trans. wms e código U.M.A estão em uma posição diferente de `P`.
+
+A ordenação do resultado é:
+
+- Menor rua dentre o intervalo de ruas definido (ASC);
+- O giro/dia do produto, os maiores primeiro (DESC).
+
+Se forem encontrados resultados, a primeira ordem de serviço é atribuída a senha com [tipo de serviço](./tipos_servico.md) `PV`.
+
+Mas o processo também pesquisa pela existência de outras ordens de serviço pendentes com a mesma origem e destino, caso sejam encontradas, o tipo de serviço será definida como `OC`, e essas outras ordens de serviço serão associadas nesta mesma senha (`BOFILAOSR`).
+
+---
