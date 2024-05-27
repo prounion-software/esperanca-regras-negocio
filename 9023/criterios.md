@@ -356,3 +356,5 @@ A sequência real fica da seguinte forma:
 |  21   |                                                 9.5                                                  |     Sim      |
 |  22   |                                                  10                                                  |     Sim      |
 |  23   |                                                  11                                                  |     Sim      |
+
+Caso após toda essa análise nenhuma ordem de serviço for encontrada, a solicitação é considerada como não atendida, [status](./status_senha.md) é alterada para `C` (Cancelada).
